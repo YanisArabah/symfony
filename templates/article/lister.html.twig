@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Articles{% endblock %}
+
+{% block body %}
+
+<div class="content-wrapper">
+    <h1>Liste des Articles</h1>
+
+    <div class="btn-create">
+        <a href="{{ path('app_article_create') }}"><button class="btn btn-primary">Créer</button></a>
+    </div>
+
+    {% if articles is not empty %}
+        <div class="card-container">
+            {% for art in articles %}
+                <div class="card">
+                    <h2>{{ art.titre }}</h2>
+                    <p>{{ art.texte }}</p>
+                    <p>id: {{ art.id }}</p>
+                    <img src="{{ asset('uploads/images/' ~ art.image) }}" alt="{{ art.titre }}" style="max-width: 100%; height: auto;">
+
+                    <small>Publié le : {{ art.date ? art.date|date('d-m-Y H:i') : 'Date non spécifiée' }}</small>
+                    
+                    <div class="button-container">
+                        <a href="{{ path('app_article_modifier', { 'id': art.id }) }}"><button class="btn btn-edit">Modifier</button></a>
+                        <a href="{{ path('app_article_supprimer', { 'id': art.id }) }}"><button class="btn btn-delete">Supprimer</button></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucun article trouvé.</p>
+    {% endif %}
+</div>
+
+<style>
+    .content-wrapper {
+        margin: 2em auto;
+        max-width: 900px;
+        width: 95%;
+        font: 18px/1.5 sans-serif;
+    }
+    .card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.5em;
+        margin-bottom: 1.5em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    .card h2 {
+        margin: 0 0 0.5em;
+        font-size: 1.5em;
+        color: #333;
+    }
+    .card p {
+        font-size: 1em;
+        color: #555;
+    }
+    .card small {
+        display: block;
+        color: #999;
+        margin-top: 0.5em;
+    }
+    .button-container {
+        display: flex;
+        gap: 0.5em;
+        margin-top: 1em;
+    }
+    .btn {
+        padding: 0.5em 1em;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .btn-edit {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+    .btn-delete:hover {
+        background-color: #b02a37;
+    }
+
+    .btn-create {
+        margin-bottom: 20px;
+    }
+
+</style>
+
+{% endblock %}
